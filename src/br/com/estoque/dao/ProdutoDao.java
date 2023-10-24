@@ -68,7 +68,7 @@ public class ProdutoDao {
 		
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		
-		ResultSet resultSet = stmt.executeQuery(); /* Executamos a nossa Quey=ry*/
+		ResultSet resultSet = stmt.executeQuery(); /* Executamos a nossa Queyry*/
 	
 		ArrayList<Produto> allProdutos = new ArrayList(); /* Criamos a lista*/
 		
@@ -81,7 +81,7 @@ public class ProdutoDao {
 		
 		connection.close();
 		
-		return allProdutos;
+		return allProdutos; /* no final retorna todos os produtos */
 	}
 }
 

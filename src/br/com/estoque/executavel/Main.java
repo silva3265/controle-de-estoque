@@ -10,8 +10,7 @@ import br.com.estoque.model.ProdutoModel;
 
 public class Main {
 
-	public static void adicionar()
-			throws SQLException { /*
+	public static void adicionar()throws SQLException { /*
 									 * static - serve para um metodo Estatico conseguir acessar outro metodo (esse
 									 * metodo que vai acessar precisa ser 'static')
 									 */
@@ -66,14 +65,14 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println(" Digite o Nome para Consulta");
+		System.out.println(" Digite o Nome para Consulta ");
 		Produto produtoConsultado = pm.getProdutoByNome(sc.next());
 
 		System.out.printf("Id: " + produtoConsultado.getId() + "\nNome: " + produtoConsultado.getNome()
 				+ "\nDescricao: " + produtoConsultado.getDescricao() + "\nValor: " + produtoConsultado.getValor()
 				+ "\nQauntidade: " + produtoConsultado.getQuantidade() + "\n\n");
 
-		System.out.println(" ** Gostaria de Consultar Outro Produto: \n1 - Sim, \n2 - Não ");
+		System.out.println(" Gostaria de Consultar Outro Produto: \n1 - Sim \n2 - Não ");
 		int respostaConsultar = sc.nextInt();
 
 		return respostaConsultar;
@@ -87,7 +86,7 @@ public class Main {
 		ProdutoModel pm = new ProdutoModel();
 
 		System.out.println(
-				"O que vc Deseja Fazer: \n 1 - Adicionar, \n 2 - Consultar, \n 3 - Atualizar, \n 4 - Remover, \n 5 - Consultar Todos os Produtos");
+				"O que vc Deseja Fazer: \n 1 - Adicionar \n 2 - Consultar \n 3 - Atualizar \n 4 - Remover \n 5 - Consultar Todos os Produtos ");
 		int numero = sc.nextInt();
 
 		switch (numero) { /* Ele vai escolher qual é o caso, 'switch' - escolher */
@@ -96,20 +95,14 @@ public class Main {
 
 			break;
 		case 2:
-
-			int respostaConsultar = consultarByNome();
-
-			switch (respostaConsultar) {
-			case 1:
-				consultarByNome();
-
-				break;
-
-			case 2:
-				System.out.println(" ** Voltando ao Menu Principal ** ");
-				menuPrincipal();
-
-			}
+			
+			int respostaConsultar = 0; /* Inicializamos com 1 porque ja vai cair dentro do while */
+			do { /* 'do' - faça alguma coisa,*/
+				respostaConsultar = consultarByNome();
+			} while (respostaConsultar == 1); /* 'enquanto' o usuario quiser uma nova busca o while vai rodar (nos dar  liberdade de escolher) */
+			
+			System.out.println(" ** Retornando ao Menu Principal ** ");
+			menuPrincipal();
 
 			break;
 		case 3:
@@ -121,7 +114,7 @@ public class Main {
 			System.out.println(" Qual produto voce deseja atualizar");
 
 			System.out.println(
-					" O que vc Deseja Atualizar: \n 1 - Nome, \n 2 - Descrição, \n 3 - Valor, \n 4 - Quantidade \n 5 - Atualizar todas as Opções");
+					" O que vc Deseja Atualizar: \n 1 - Nome \n 2 - Descrição \n 3 - Valor \n 4 - Quantidade \n 5 - Atualizar todas as Opções ");
 			int opcaoUpdate = sc.nextInt();
 
 			switch (opcaoUpdate) {
@@ -188,7 +181,7 @@ public class Main {
 			
 			consultarProdutos();
 			
-			System.out.println(" ** Gostaria de Voltar ao Menu Principal: \n 1 - Sim, \n 2 - Não");
+			System.out.println(" ** Gostaria de Voltar ao Menu Principal: \n 1 - Sim \n 2 - Não");
 			Scanner selecione = new Scanner(System.in);
 			int numeroMenuPrincipal = sc.nextInt();
 			switch (numeroMenuPrincipal) {
