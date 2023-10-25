@@ -83,6 +83,21 @@ public class ProdutoDao {
 		
 		return allProdutos; /* no final retorna todos os produtos */
 	}
+
+	public void updateNome(String nomeProduto) {
+		
+		
+	}
+
+	public void updateDescricao(String descricaoProduto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateQuantidade(Integer quantidadeProduto) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

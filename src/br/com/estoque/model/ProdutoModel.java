@@ -40,12 +40,12 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 	}
 
 	public void updateNomeProduto(String nomeProduto) {
-		// TODO Auto-generated method stub
+		pDao.updateNome(nomeProduto);
 		
 	}
 
 	public void updateDescricaoProduto(String descricaoProduto) {
-		// TODO Auto-generated method stub
+		pDao.updateDescricao(descricaoProduto);
 		
 	}
 
@@ -55,7 +55,7 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 	}
 
 	public void updateQuantidadeProduto(Integer quantidadeProduto) {
-		// TODO Auto-generated method stub
+		pDao.updateQuantidade(quantidadeProduto);
 		
 	}
 

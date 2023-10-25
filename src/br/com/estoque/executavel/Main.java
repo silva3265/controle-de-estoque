@@ -10,7 +10,8 @@ import br.com.estoque.model.ProdutoModel;
 
 public class Main {
 
-	public static void adicionar()throws SQLException { /*
+	public static void adicionar()
+			throws SQLException { /*
 									 * static - serve para um metodo Estatico conseguir acessar outro metodo (esse
 									 * metodo que vai acessar precisa ser 'static')
 									 */
@@ -95,12 +96,15 @@ public class Main {
 
 			break;
 		case 2:
-			
+
 			int respostaConsultar = 0; /* Inicializamos com 1 porque ja vai cair dentro do while */
-			do { /* 'do' - faça alguma coisa,*/
+			do { /* 'do' - faça alguma coisa */
 				respostaConsultar = consultarByNome();
-			} while (respostaConsultar == 1); /* 'enquanto' o usuario quiser uma nova busca o while vai rodar (nos dar  liberdade de escolher) */
-			
+			} while (respostaConsultar == 1); /*
+												 * 'enquanto' o usuario quiser uma nova busca o while vai rodar (nos dar
+												 * liberdade de escolher)
+												 */
+
 			System.out.println(" ** Retornando ao Menu Principal ** ");
 			menuPrincipal();
 
@@ -110,11 +114,22 @@ public class Main {
 			System.out.println(" ** Lista de produtos do Nosso Estoque **");
 
 			ArrayList<Produto> listaProdutos = pm.getProdutos();
+			for (Produto produto : listaProdutos) {
+				System.out.print("Id: " + produto.getId() + "\nNome: " + produto.getNome() + "\nDescricao: "
+						+ produto.getDescricao() + "\nValor: " + produto.getValor() + "\nQauntidade: "
+						+ produto.getQuantidade() + "\n\n");
+			}
 
-			System.out.println(" Qual produto voce deseja atualizar");
-
+			System.out.println(" Qual produto voce deseja atualizar ");
+			String opcao = sc.next();
+			Produto retorno = pm.getProdutoByNome(opcao);
+			System.out.print(
+					"Id: " + retorno.getId() + "\nNome: " + retorno.getNome() + "\nDescricao: " + retorno.getDescricao()
+							+ "\nValor: " + retorno.getValor() + "\nQauntidade: " + retorno.getQuantidade() + "\n\n");
+			
 			System.out.println(
-					" O que vc Deseja Atualizar: \n 1 - Nome \n 2 - Descrição \n 3 - Valor \n 4 - Quantidade \n 5 - Atualizar todas as Opções ");
+					" O que vc Deseja Atualizar do Produto:" + retorno.getNome() + " \n 1 - Nome \n 2 - Descrição \n 3 - Valor \n 4 - Quantidade \n 5 - Todos ");
+	
 			int opcaoUpdate = sc.nextInt();
 
 			switch (opcaoUpdate) {
@@ -123,6 +138,7 @@ public class Main {
 				System.out.println(" Atualize o Nome do Produto: ");
 				String nomeProduto = sc.next();
 				pm.updateNomeProduto(nomeProduto);
+				System.out.println(" Nome do Produto atualizado com Sucesso: " + retorno.getNome());
 
 				break;
 
@@ -178,9 +194,9 @@ public class Main {
 		case 4: // Remover
 
 		case 5:
-			
+
 			consultarProdutos();
-			
+
 			System.out.println(" ** Gostaria de Voltar ao Menu Principal: \n 1 - Sim \n 2 - Não");
 			Scanner selecione = new Scanner(System.in);
 			int numeroMenuPrincipal = sc.nextInt();
@@ -191,10 +207,10 @@ public class Main {
 
 			default:
 				System.out.println(" ** Encerrando Programa ** ");
-				
+
 				break;
 			}
-			
+
 		}
 
 		sc.close();
