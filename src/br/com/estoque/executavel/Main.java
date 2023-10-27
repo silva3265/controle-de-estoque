@@ -135,10 +135,7 @@ public class Main {
 			switch (opcaoUpdate) {
 			case 1:
 
-				System.out.println(" Atualize o Nome do Produto: ");
-				String nomeProduto = sc.next();
-				pm.updateNomeProduto(nomeProduto);
-				System.out.println(" Nome do Produto atualizado com Sucesso: " + retorno.getNome());
+				updateNome(retorno.getNome());
 
 				break;
 
@@ -147,6 +144,7 @@ public class Main {
 				System.out.println(" Atualize a Descrição do Produto: ");
 				String descricaoProduto = sc.next();
 				pm.updateDescricaoProduto(descricaoProduto);
+				System.out.println(" Descrição do Produto atualizado com Sucesso!! " + retorno.getDescricao());
 
 				break;
 
@@ -155,14 +153,16 @@ public class Main {
 				System.out.println(" Atualize o Valor do Produto: ");
 				BigDecimal valorProduto = sc.nextBigDecimal();
 				pm.updateValorProduto(valorProduto);
+				System.out.println(" Valor do Produto Atualizado com Sucesso!! ");
 
 				break;
 
 			case 4:
 
-				System.out.println(" Atualize a quantidade do Produto: ");
+				System.out.println(" Atualize a Quantidade do Produto: ");
 				Integer quantidadeProduto = sc.nextInt();
 				pm.updateQuantidadeProduto(quantidadeProduto);
+				System.out.println(" Quantidade de Produtos Atualizado com Sucesso!! ");
 
 				break;
 
@@ -207,13 +207,22 @@ public class Main {
 
 			default:
 				System.out.println(" ** Encerrando Programa ** ");
-
 				break;
 			}
 
 		}
 
 		sc.close();
+	}
+	
+	public static void updateNome(String nome1) throws SQLException {
+		
+		Scanner sc = new Scanner(System.in);
+		ProdutoModel pm = new ProdutoModel();
+		System.out.println(" Atualize o Nome do Produto: ");
+		String nome2 = sc.next();
+		pm.updateNomeProduto(nome1, nome2);
+		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
 	}
 
 	public static void main(String[] args) throws SQLException {

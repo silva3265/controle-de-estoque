@@ -39,8 +39,8 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 
 	}
 
-	public void updateNomeProduto(String nomeProduto) {
-		pDao.updateNome(nomeProduto);
+	public void updateNomeProduto(String nome1, String nome2) throws SQLException {
+		pDao.updateNome(nome1, nome2);
 		
 	}
 
@@ -50,7 +50,7 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 	}
 
 	public void updateValorProduto(BigDecimal valorProduto) {
-		// TODO Auto-generated method stub
+		pDao.updateValor(valorProduto);
 		
 	}
 
