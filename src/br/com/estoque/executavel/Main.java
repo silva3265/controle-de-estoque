@@ -141,10 +141,7 @@ public class Main {
 
 			case 2:
 
-				System.out.println(" Atualize a Descrição do Produto: ");
-				String descricaoProduto = sc.next();
-				pm.updateDescricaoProduto(descricaoProduto);
-				System.out.println(" Descrição do Produto atualizado com Sucesso!! " + retorno.getDescricao());
+				updateDescricao(retorno.getNome()); /* Tem que retornar o nome do produto e nao a descrição */
 
 				break;
 
@@ -197,7 +194,7 @@ public class Main {
 
 			consultarProdutos();
 
-			System.out.println(" ** Gostaria de Voltar ao Menu Principal: \n 1 - Sim \n 2 - Não");
+			System.out.println(" Gostaria de Voltar ao Menu Principal: \n 1 - Sim \n 2 - Não ");
 			Scanner selecione = new Scanner(System.in);
 			int numeroMenuPrincipal = sc.nextInt();
 			switch (numeroMenuPrincipal) {
@@ -224,6 +221,18 @@ public class Main {
 		pm.updateNomeProduto(nome1, nome2);
 		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
 	}
+	
+	public static void updateDescricao(String nome) throws SQLException {
+		
+		Scanner sc = new Scanner(System.in);
+		ProdutoModel pm = new ProdutoModel();
+		System.out.println(" Atualize a descricao do Produto: ");
+		String descricao = sc.next();
+		pm.updateDescricaoProduto(descricao, nome);
+		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
+	}
+	
+	
 
 	public static void main(String[] args) throws SQLException {
 

@@ -44,8 +44,8 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 		
 	}
 
-	public void updateDescricaoProduto(String descricaoProduto) {
-		pDao.updateDescricao(descricaoProduto);
+	public void updateDescricaoProduto(String descricaoProduto, String nome) {
+		pDao.updateDescricao(descricaoProduto, nome);
 		
 	}
 

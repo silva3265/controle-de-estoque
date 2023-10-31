@@ -94,7 +94,7 @@ public class ProdutoDao {
 		
 		PreparedStatement stmt = conexao.prepareStatement(sql);
 		
-		/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APAENAS PARA CONSULTA 'SELECT' */
+		/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 		stmt.setString(1, nome2); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 		stmt.setString(2, nome1);
 		stmt.execute();
@@ -102,8 +102,37 @@ public class ProdutoDao {
 		conexao.close();
 	}
 
-	public void updateDescricao(String descricaoProduto) {
-		// TODO Auto-generated method stub
+	public void updateDescricao(String descricaoProduto, String nome) {
+		String sql = "UPDATE produto SET descricao = ? WHERE nome = ? "; /* Precisamos saber qual produto queremos atualizar, por isso a clausula*/
+		
+		Connection conexao = null;
+		PreparedStatement stmt = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
+			stmt.setString(1, descricaoProduto); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
+			stmt.setString(2, nome);
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		finally {
+			try {
+				stmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
 		
 	}
 
