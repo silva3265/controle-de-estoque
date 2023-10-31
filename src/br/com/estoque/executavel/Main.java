@@ -153,11 +153,8 @@ public class Main {
 
 			case 4:
 
-				System.out.println(" Atualize a Quantidade do Produto: ");
-				Integer quantidadeProduto = sc.nextInt();
-				pm.updateQuantidadeProduto(quantidadeProduto);
-				System.out.println(" Quantidade de Produtos Atualizado com Sucesso!! ");
-
+				updateQuantidade(retorno.getNome());
+				
 				break;
 
 			case 5:
@@ -239,6 +236,15 @@ public class Main {
 		System.out.println(" Valor do Produto atualizado com Sucesso!! ");
 	}
 	
+	public static void updateQuantidade(String nome) throws SQLException {
+		
+		Scanner sc = new Scanner(System.in);
+		ProdutoModel pm = new ProdutoModel();
+		System.out.println(" Atualize a Quantidade do Produto: ");
+		Integer quantidade = sc.nextInt();
+		pm.updateQuantidadeProduto(quantidade, nome);
+		System.out.println(" Quantidade do Produto atualizado com Sucesso!! ");
+	}
 	
 
 	public static void main(String[] args) throws SQLException {

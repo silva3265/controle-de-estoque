@@ -49,13 +49,13 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 		
 	}
 
-	public void updateValorProduto(BigDecimal valorProduto, String nome) {
-		pDao.updateValor(valorProduto, nome);
+	public void updateValorProduto(BigDecimal quantidade, String nome) {
+		pDao.updateValor(quantidade, nome);
 		
 	}
 
-	public void updateQuantidadeProduto(Integer quantidadeProduto) {
-		pDao.updateQuantidade(quantidadeProduto);
+	public void updateQuantidadeProduto(Integer quantidadeProduto, String nome) {
+		pDao.updateQuantidade(quantidadeProduto, nome);
 		
 	}
 
