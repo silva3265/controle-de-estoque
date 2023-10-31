@@ -147,10 +147,7 @@ public class Main {
 
 			case 3:
 
-				System.out.println(" Atualize o Valor do Produto: ");
-				BigDecimal valorProduto = sc.nextBigDecimal();
-				pm.updateValorProduto(valorProduto);
-				System.out.println(" Valor do Produto Atualizado com Sucesso!! ");
+				updateValor(retorno.getNome());
 
 				break;
 
@@ -229,7 +226,17 @@ public class Main {
 		System.out.println(" Atualize a descricao do Produto: ");
 		String descricao = sc.next();
 		pm.updateDescricaoProduto(descricao, nome);
-		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
+		System.out.println(" Descrição do Produto atualizado com Sucesso!! ");
+	}
+	
+	public static void updateValor(String nome) throws SQLException {
+		
+		Scanner sc = new Scanner(System.in);
+		ProdutoModel pm = new ProdutoModel();
+		System.out.println(" Atualize o Valor do Produto: ");
+		BigDecimal valor = sc.nextBigDecimal();
+		pm.updateValorProduto(valor, nome);;
+		System.out.println(" Valor do Produto atualizado com Sucesso!! ");
 	}
 	
 	

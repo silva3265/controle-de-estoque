@@ -135,16 +135,45 @@ public class ProdutoDao {
 		
 		
 	}
+	
+	public void updateValor(BigDecimal valor, String nome) {
+		String sql = "UPDATE produto SET valor = ? WHERE nome = ? "; /* Precisamos saber qual produto queremos atualizar, por isso a clausula*/
+		
+		Connection conexao = null;
+		PreparedStatement stmt = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
+			stmt.setBigDecimal(1, valor); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
+			stmt.setString(2, nome);
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		finally {
+			try {
+				stmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 
 	public void updateQuantidade(Integer quantidadeProduto) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void updateValor(BigDecimal valorProduto) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
 
 
