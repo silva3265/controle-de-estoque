@@ -12,94 +12,184 @@ import br.com.estoque.entities.Produto;
 
 public class ProdutoDao {
 
-	public Produto getProdutoByNome(String nome) throws SQLException {
+	public Produto getProdutoByNome(String nome) {
 		String sql = "SELECT * FROM produto WHERE nome = ? ";
 		
-		Connection conexao = new Conexao().getConnection(); 
-		
-		PreparedStatement stmt = conexao.prepareStatement(sql);
-		
-		stmt.setString(1, nome); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
-		
-		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
-		
-		 Produto produto = null;
-		// resultSet - ele vai retornar verdadeiro se ele existir
-		// Ele vai retornar apenas o primeiro objeto 
-		if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), proxima coluna */
-			produto = new Produto(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getBigDecimal("valor"), resultSet.getInt("quantidade"));
-		}
-		conexao.close();
+		Connection conexao;
+		PreparedStatement stmt;
+		Produto produto = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, nome); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			 
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), proxima coluna */
+				produto = new Produto(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getBigDecimal("valor"), resultSet.getInt("quantidade"));
+			}
+			conexao.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 		return produto;
 		
 	}
+	
+	public Produto getProdutoById(Integer id){
+		String sql = "SELECT * FROM produto WHERE id = ? ";
+		
+		Connection conexao = null;
+		PreparedStatement stmt; 
+		Produto produto = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setInt(1, id); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), proxima coluna */
+				produto = new Produto(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getBigDecimal("valor"), resultSet.getInt("quantidade"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return produto;
+		
+	}
+	
 
 	/* AS TRES PRINCIPAIS INSTRUÇÕES DE DENTRO DE UM METODO DA DAO SÃO: SQL (QUERY), CONEXÃO, E CHAMADA DA CONEXÃO */
-	public void register(Produto produto) throws SQLException {
+	public void register(Produto produto) {
 		
 		/* QUERY SQL */
 		String sql = " INSERT INTO produto (nome, descricao, valor, quantidade) VALUES (?, ?, ?, ? )";
 		
-		Connection connection =  new Conexao().getConnection();
-		
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		
-		stmt.setString(1, produto.getNome()); /* o indice '1' é o nosso primeiro coringa '?' */
-		stmt.setString(2, produto.getDescricao()); /* o indice '2' éo nosso segundo coringa '?' */
-		stmt.setBigDecimal(3, produto.getValor());
-		stmt.setInt(4, produto.getQuantidade());
-		
-		stmt.execute();
-		stmt.close();
-		connection.close();
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		try {
+			connection = new Conexao().getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setString(1, produto.getNome()); /* o indice '1' é o nosso primeiro coringa '?' */
+			stmt.setString(2, produto.getDescricao()); /* o indice '2' éo nosso segundo coringa '?' */
+			stmt.setBigDecimal(3, produto.getValor());
+			stmt.setInt(4, produto.getQuantidade());
+			
+			stmt.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			
+			try {
+				connection.close();
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public void update(Produto produto) {
-		
-	}
-
-	public ArrayList<Produto> getProdutos() throws SQLException {
+	public ArrayList<Produto> getProdutos() {
 		
 		/* o SELECT sempre nos retorna um ResultSet */
 		String sql = "SELECT * FROM produto"; /* Vai retornar todos os registros da tabela */
 		
-		Connection connection =  new Conexao().getConnection();
-		
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		
-		ResultSet resultSet = stmt.executeQuery(); /* Executamos a nossa Query*/
-	
+		Connection connection = null;
+		PreparedStatement stmt = null;
 		ArrayList<Produto> allProdutos = new ArrayList(); /* Criamos a lista para retonar todos os Produtos do tipo 'Produto'*/
-		
-		// new BigDecimal(5.50) - ele é um objeto, então temos que instancialo! se nao instanciarmos ele identifica como 'double'
-//		allProdutos.set(0, new Produto(1 , "Feijão", " Grao ", new BigDecimal(5.50) , 25)); /* 'set' - Atualização dentro do Vetor*/
-		
-		while (resultSet.next()) { /* Cada vez que o while rodar nos vamos criar um produto novo e adicionar ele na lista */
-			Produto produto = new Produto(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getBigDecimal("valor"), resultSet.getInt("quantidade"));
+		try {
+			connection = new Conexao().getConnection();
+			stmt = connection.prepareStatement(sql);
 			
-			allProdutos.add(produto); /* Cada produto achado atraves do while ele vai adicionar na nossa Lista 'allProdutos' */
-		
+			ResultSet resultSet = stmt.executeQuery(); /* Executamos a nossa Query*/
+			
+			
+			// new BigDecimal(5.50) - ele é um objeto, então temos que instancialo! se nao instanciarmos ele identifica como 'double'
+//			allProdutos.set(0, new Produto(1 , "Feijão", " Grao ", new BigDecimal(5.50) , 25)); /* 'set' - Atualização dentro do Vetor*/
+			
+			while (resultSet.next()) { /* Cada vez que o while rodar nos vamos criar um produto novo e adicionar ele na lista */
+				Produto produto = new Produto(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getBigDecimal("valor"), resultSet.getInt("quantidade"));
+				
+				allProdutos.add(produto); /* Cada produto achado atraves do while ele vai adicionar na nossa Lista 'allProdutos' */
+			
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		connection.close(); /* Fechando a conexão */
-		
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} /* Fechando a conexão */
+			
+			
+		}
 		return allProdutos; /* no final retorna todos os produtos */
+		
 	}
 
-	public void updateNome(String nome1, String nome2) throws SQLException {
+	public void updateNome(String nome1, String nome2) { /* Pode Lançar uma exceção */
 		String sql = "UPDATE produto SET nome = ? WHERE nome = ? "; /* Precisamos saber qual produto queremos atualizar, por isso a clausula*/
 		
-		Connection conexao = new Conexao().getConnection();
+		Connection conexao = null;
+		PreparedStatement stmt = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
+			stmt.setString(1, nome2); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
+			stmt.setString(2, nome1);
+			stmt.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); /* Vai printar a Exceção */
+		}
 		
-		PreparedStatement stmt = conexao.prepareStatement(sql);
-		
-		/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
-		stmt.setString(1, nome2); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
-		stmt.setString(2, nome1);
-		stmt.execute();
-		stmt.close();
-		conexao.close();
+		finally {
+			try {
+				stmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	}
 
 	public void updateDescricao(String descricaoProduto, String nome) {
@@ -180,6 +270,71 @@ public class ProdutoDao {
 			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 			stmt.setInt(1, quantidade); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 			stmt.setString(2, nome);
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		finally {
+			try {
+				stmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+
+	public void update(Produto produto, String nomeAntigo) {
+		
+		String sql = " UPDATE produto SET nome = ?, descricao = ?, quantidade = ?, valor = ? WHERE nome = ? ";
+		
+		Connection conexao = null;
+		PreparedStatement stmt = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, produto.getNome());
+			stmt.setString(2, produto.getDescricao());
+			stmt.setBigDecimal(3, produto.getValor());
+			stmt.setInt(4, produto.getQuantidade());
+			stmt.setString(5, nomeAntigo);
+			stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		finally {
+			try {
+				stmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	public void remove (Integer id) {
+		
+		String sql = " DELETE FROM produto WHERE id = ? ";
+		
+		Connection conexao = null;
+		PreparedStatement stmt = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setInt(1, id);
 			stmt.execute();
 			
 		} catch (SQLException e) {
