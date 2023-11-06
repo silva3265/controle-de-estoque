@@ -79,7 +79,26 @@ public class Main {
 		return respostaConsultar;
 
 	}
+	
+	public static Integer consultarById() throws SQLException {
 
+		ProdutoModel pm = new ProdutoModel();
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println(" Digite o Id para Consulta ");
+		Produto produtoConsultado = pm.getProdutoById(sc.nextInt());
+
+		System.out.printf("Id: " + produtoConsultado.getId() + "\nNome: " + produtoConsultado.getNome()
+				+ "\nDescricao: " + produtoConsultado.getDescricao() + "\nValor: " + produtoConsultado.getValor()
+				+ "\nQauntidade: " + produtoConsultado.getQuantidade() + "\n\n");
+
+		System.out.println(" Gostaria de Consultar Outro Produto: \n1 - Sim \n2 - Não ");
+		int respostaConsultar = sc.nextInt();
+
+		return respostaConsultar;
+	}
+	
 	public static void menuPrincipal() throws SQLException {
 
 		Scanner sc = new Scanner(System.in);
@@ -154,26 +173,12 @@ public class Main {
 			case 4:
 
 				updateQuantidade(retorno.getNome());
-				
+
 				break;
 
 			case 5:
 
-				Produto produtoAtualizado = new Produto();
-
-				System.out.println(" Atualize o Nome do Produto: ");
-				produtoAtualizado.setDescricao(sc.next());
-
-				System.out.println(" Atualize a Descrição do Produto: ");
-				produtoAtualizado.setDescricao(sc.next());
-
-				System.out.println(" Atualize o Valor do Produto: ");
-				produtoAtualizado.setValor(sc.nextBigDecimal());
-
-				System.out.println(" Atualize a Quantidade do Produto: ");
-				produtoAtualizado.setQuantidade(sc.nextInt());
-
-				pm.update(produtoAtualizado);
+				updateTodos(retorno.getNome());
 
 			default:
 
@@ -182,7 +187,9 @@ public class Main {
 				break;
 			}
 
-		case 4: // Remover
+		case 4:
+			
+			remove();
 
 		case 5:
 
@@ -232,7 +239,7 @@ public class Main {
 		ProdutoModel pm = new ProdutoModel();
 		System.out.println(" Atualize o Valor do Produto: ");
 		BigDecimal valor = sc.nextBigDecimal();
-		pm.updateValorProduto(valor, nome);;
+		pm.updateValorProduto(valor, nome);
 		System.out.println(" Valor do Produto atualizado com Sucesso!! ");
 	}
 	
@@ -246,6 +253,50 @@ public class Main {
 		System.out.println(" Quantidade do Produto atualizado com Sucesso!! ");
 	}
 	
+	public static void updateTodos(String nomeAntigo) throws SQLException {
+		
+		Produto produtoAtualizado = new Produto();
+		Scanner sc = new Scanner(System.in);
+		ProdutoModel pm = new ProdutoModel();
+
+		System.out.println(" Atualize o Nome do Produto: ");
+		produtoAtualizado.setNome(sc.next());
+	
+		System.out.println(" Atualize a Descrição do Produto: ");
+		produtoAtualizado.setDescricao(sc.next());
+
+		System.out.println(" Atualize o Valor do Produto: ");
+		produtoAtualizado.setValor(sc.nextBigDecimal());
+
+		System.out.println(" Atualize a Quantidade do Produto: ");
+		produtoAtualizado.setQuantidade(sc.nextInt());
+
+		pm.update(produtoAtualizado, nomeAntigo);
+		System.out.println(" ** Produto atualizado com Sucesso ** ");
+	}
+	
+	public static void remove() throws SQLException {
+		consultarProdutos();
+		ProdutoModel pm = new ProdutoModel();
+		Scanner sc = new Scanner(System.in);
+		System.out.println(" Digite o Id do produto que deseja Remover: ");
+		Integer idProduto = sc.nextInt();
+		Produto retorno = pm.getProdutoById(idProduto);
+		System.out.println(" Tem certeza que deseja Remover esse Produto? " + retorno.getNome() + "\n 1 - Sim \n 2 - Não");
+		
+		Integer selecione = sc.nextInt();
+		switch (selecione) {
+		case 1:
+			pm.remove(idProduto);
+			break;
+
+		case 2:
+			
+			System.out.println( "Operação de Exclusão Cancelada");
+			break;
+		}
+		
+	}
 
 	public static void main(String[] args) throws SQLException {
 

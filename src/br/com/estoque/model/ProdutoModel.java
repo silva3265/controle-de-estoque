@@ -23,6 +23,11 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 
 	}
 	
+	public Produto getProdutoById(Integer id) throws SQLException {
+		return pDao.getProdutoById(id);
+
+	}
+	
 	public ArrayList<Produto> getProdutos() throws SQLException {
 		return pDao.getProdutos();
 
@@ -31,11 +36,6 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 	/* Cadastrar um Produto */
 	public void register(Produto produto) throws SQLException {
 		pDao.register(produto); /* Chamamos o DAO */
-
-	}
-
-	public void update(Produto produto) {
-		pDao.update(produto);
 
 	}
 
@@ -57,6 +57,15 @@ public class ProdutoModel { /* O Objetivo da 'Model' é fazer a ponte entre a DA
 	public void updateQuantidadeProduto(Integer quantidadeProduto, String nome) {
 		pDao.updateQuantidade(quantidadeProduto, nome);
 		
+	}
+
+	public void update(Produto produto, String nomeAntigo) {
+		pDao.update(produto, nomeAntigo);
+		
+	}
+	
+	public void remove(Integer id) {
+		pDao.remove(id);
 	}
 
 }
