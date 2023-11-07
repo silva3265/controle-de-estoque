@@ -89,6 +89,7 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			connection = new Conexao().getConnection();
+			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
 			stmt = connection.prepareStatement(sql);
 			
 			stmt.setString(1, produto.getNome()); /* o indice '1' é o nosso primeiro coringa '?' */
@@ -97,11 +98,18 @@ public class ProdutoDao {
 			stmt.setInt(4, produto.getQuantidade());
 			
 			stmt.execute();
+			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
 			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				connection.rollback(); /* rollback - voltar a versão anterior caso caia no 'catch'*/
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally {
 			
@@ -167,17 +175,25 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 			stmt.setString(1, nome2); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 			stmt.setString(2, nome1);
 			stmt.execute();
+			conexao.commit();
 			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); /* Vai printar a Exceção */
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} /* rollback - voltar a versão anterior caso caia no 'catch'*/
 		}
 		
 		finally {
@@ -199,17 +215,24 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 			stmt.setString(1, descricaoProduto); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 			stmt.setString(2, nome);
 			stmt.execute();
+			conexao.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally {
 			try {
@@ -233,16 +256,24 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 			stmt.setBigDecimal(1, valor); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 			stmt.setString(2, nome);
 			stmt.execute();
+			conexao.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 		}
 		finally {
@@ -265,17 +296,24 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			/* NÃO PRECISAMOS INSTANCIAR O RESULTSET PORQUE SÓ USAMOS APENAS PARA CONSULTA 'SELECT' */
 			stmt.setInt(1, quantidade); /* 'nome2' é o nome que vai entrar no lugar do 'nome1' */
 			stmt.setString(2, nome);
 			stmt.execute();
+			conexao.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally {
 			try {
@@ -292,12 +330,13 @@ public class ProdutoDao {
 
 	public void update(Produto produto, String nomeAntigo) {
 		
-		String sql = " UPDATE produto SET nome = ?, descricao = ?, quantidade = ?, valor = ? WHERE nome = ? ";
+		String sql = " UPDATE produto SET nome = ?, descricao = ?, valor = ?, quantidade = ? WHERE nome = ? ";
 		
 		Connection conexao = null;
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			stmt.setString(1, produto.getNome());
@@ -306,11 +345,17 @@ public class ProdutoDao {
 			stmt.setInt(4, produto.getQuantidade());
 			stmt.setString(5, nomeAntigo);
 			stmt.execute();
+			conexao.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally {
 			try {
@@ -332,15 +377,22 @@ public class ProdutoDao {
 		PreparedStatement stmt = null;
 		try {
 			conexao = new Conexao().getConnection();
+			conexao.setAutoCommit(false);
 			stmt = conexao.prepareStatement(sql);
 			
 			stmt.setInt(1, id);
 			stmt.execute();
+			conexao.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+			try {
+				conexao.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		finally {
 			try {
@@ -355,15 +407,4 @@ public class ProdutoDao {
 		
 	}
 
-	
 }
-
-
-
-
-
-
-
-
-
-
