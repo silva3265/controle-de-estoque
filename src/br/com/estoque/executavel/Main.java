@@ -179,6 +179,7 @@ public class Main {
 			case 5:
 
 				updateTodos(retorno.getNome());
+				break;
 
 			default:
 
@@ -186,11 +187,11 @@ public class Main {
 
 				break;
 			}
-
+			break;
 		case 4:
 			
 			remove();
-
+			break;
 		case 5:
 
 			consultarProdutos();
@@ -221,6 +222,8 @@ public class Main {
 		String nome2 = sc.next();
 		pm.updateNomeProduto(nome1, nome2);
 		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
+		menuPrincipal();
+		
 	}
 	
 	public static void updateDescricao(String nome) throws SQLException {
@@ -231,6 +234,7 @@ public class Main {
 		String descricao = sc.next();
 		pm.updateDescricaoProduto(descricao, nome);
 		System.out.println(" Descrição do Produto atualizado com Sucesso!! ");
+		menuPrincipal();
 	}
 	
 	public static void updateValor(String nome) throws SQLException {
@@ -241,6 +245,7 @@ public class Main {
 		BigDecimal valor = sc.nextBigDecimal();
 		pm.updateValorProduto(valor, nome);
 		System.out.println(" Valor do Produto atualizado com Sucesso!! ");
+		menuPrincipal();
 	}
 	
 	public static void updateQuantidade(String nome) throws SQLException {
@@ -251,6 +256,7 @@ public class Main {
 		Integer quantidade = sc.nextInt();
 		pm.updateQuantidadeProduto(quantidade, nome);
 		System.out.println(" Quantidade do Produto atualizado com Sucesso!! ");
+		menuPrincipal();
 	}
 	
 	public static void updateTodos(String nomeAntigo) throws SQLException {
@@ -273,6 +279,7 @@ public class Main {
 
 		pm.update(produtoAtualizado, nomeAntigo);
 		System.out.println(" ** Produto atualizado com Sucesso ** ");
+		menuPrincipal();
 	}
 	
 	public static void remove() throws SQLException {
@@ -288,11 +295,14 @@ public class Main {
 		switch (selecione) {
 		case 1:
 			pm.remove(idProduto);
+			System.out.println(" ** Produto Removido com Sucesso ** ");
+			menuPrincipal();
 			break;
 
 		case 2:
 			
 			System.out.println( "Operação de Exclusão Cancelada");
+			menuPrincipal();
 			break;
 		}
 		
