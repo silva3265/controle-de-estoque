@@ -3,6 +3,7 @@ package br.com.estoque.executavel;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import br.com.estoque.entities.Produto;
@@ -28,23 +29,52 @@ public class Main {
 		System.out.println(" Adicione uma Descrição: ");
 		produto.setDescricao(sc.next());
 
-		System.out.println(" Adicione um Valor: ");
-		produto.setValor(sc.nextBigDecimal());
+		Boolean controle = false; /* Variavel de controle - serve para identifcar se deu certo ou nao deu certo */
+		while (controle == false) { /*
+									 * instanceof - ele serve para verificar se uma variavel é uma Instancia de um
+									 * determinado Objeto
+									 */
 
-		System.out.println(" Adicione uma Quantidade: ");
-		produto.setQuantidade(sc.nextInt());
+			try {
+				System.out.println(" Adicione um Valor: ");
+				produto.setValor(sc.nextBigDecimal());
+				controle = true; /*
+									 * se cair aqui nesse controle o valor esta correto e o while para de executar
+									 */
 
-		pm.register(produto); /*
-								 * Fizemos o registro desse produto, chamamos o metodo cadastrar da Model
-								 * passando a instancia de 'produto'
-								 */
+			} catch (InputMismatchException e) {
+				String resposta;
+				resposta = sc.next(); /* se cair dentro do catch o next() vai captutar a resposta errada dele */
+				System.out.println(" O Valor que voce digitou esta Incorreto " + " ` " + resposta + " ` "
+						+ " Ultilize Apenas Numeros com Virgulas! ");
+			}
+		}
+		
+		controle = false;
+		while (controle == false) {
 
-		System.out.println(" ** Produto Registrado com Sucesso!!! ** \n\n");
-		System.out.println(" ** Voltando ao Menu Principal **");
-		menuPrincipal();
+			try {
+				System.out.println(" Adicione uma Quantidade: ");
+				produto.setQuantidade(sc.nextInt());
+				controle = true;
+			} catch (InputMismatchException e) {
+				String resposta = sc.next();
+				System.out.println(" A quantidade que voce digitou esta Incorreto " + " ` " + resposta + " ` "
+						+ " Ultilize Apenas Numeros Inteiros ");
+			}
+		}
 
-		sc.close();
+			pm.register(produto); /*
+									 * Fizemos o registro desse produto, chamamos o metodo cadastrar da Model
+									 * passando a instancia de 'produto'
+									 */
 
+			System.out.println(" ** Produto Registrado com Sucesso!!! ** \n\n");
+			System.out.println(" ** Voltando ao Menu Principal **");
+			menuPrincipal();
+
+			sc.close();
+		
 	}
 
 	public static void consultarProdutos() throws SQLException {
@@ -79,7 +109,7 @@ public class Main {
 		return respostaConsultar;
 
 	}
-	
+
 	public static Integer consultarById() throws SQLException {
 
 		ProdutoModel pm = new ProdutoModel();
@@ -98,7 +128,7 @@ public class Main {
 
 		return respostaConsultar;
 	}
-	
+
 	public static void menuPrincipal() throws SQLException {
 
 		Scanner sc = new Scanner(System.in);
@@ -145,10 +175,10 @@ public class Main {
 			System.out.print(
 					"Id: " + retorno.getId() + "\nNome: " + retorno.getNome() + "\nDescricao: " + retorno.getDescricao()
 							+ "\nValor: " + retorno.getValor() + "\nQauntidade: " + retorno.getQuantidade() + "\n\n");
-			
-			System.out.println(
-					" O que vc Deseja Atualizar do Produto:" + retorno.getNome() + " \n 1 - Nome \n 2 - Descrição \n 3 - Valor \n 4 - Quantidade \n 5 - Todos ");
-	
+
+			System.out.println(" O que vc Deseja Atualizar do Produto:" + retorno.getNome()
+					+ " \n 1 - Nome \n 2 - Descrição \n 3 - Valor \n 4 - Quantidade \n 5 - Todos ");
+
 			int opcaoUpdate = sc.nextInt();
 
 			switch (opcaoUpdate) {
@@ -189,7 +219,7 @@ public class Main {
 			}
 			break;
 		case 4:
-			
+
 			remove();
 			break;
 		case 5:
@@ -213,9 +243,9 @@ public class Main {
 
 		sc.close();
 	}
-	
+
 	public static void updateNome(String nome1) throws SQLException {
-		
+
 		Scanner sc = new Scanner(System.in);
 		ProdutoModel pm = new ProdutoModel();
 		System.out.println(" Atualize o Nome do Produto: ");
@@ -223,11 +253,11 @@ public class Main {
 		pm.updateNomeProduto(nome1, nome2);
 		System.out.println(" Nome do Produto atualizado com Sucesso!! ");
 		menuPrincipal();
-		
+
 	}
-	
+
 	public static void updateDescricao(String nome) throws SQLException {
-		
+
 		Scanner sc = new Scanner(System.in);
 		ProdutoModel pm = new ProdutoModel();
 		System.out.println(" Atualize a descricao do Produto: ");
@@ -236,9 +266,9 @@ public class Main {
 		System.out.println(" Descrição do Produto atualizado com Sucesso!! ");
 		menuPrincipal();
 	}
-	
+
 	public static void updateValor(String nome) throws SQLException {
-		
+
 		Scanner sc = new Scanner(System.in);
 		ProdutoModel pm = new ProdutoModel();
 		System.out.println(" Atualize o Valor do Produto: ");
@@ -247,9 +277,9 @@ public class Main {
 		System.out.println(" Valor do Produto atualizado com Sucesso!! ");
 		menuPrincipal();
 	}
-	
+
 	public static void updateQuantidade(String nome) throws SQLException {
-		
+
 		Scanner sc = new Scanner(System.in);
 		ProdutoModel pm = new ProdutoModel();
 		System.out.println(" Atualize a Quantidade do Produto: ");
@@ -258,16 +288,16 @@ public class Main {
 		System.out.println(" Quantidade do Produto atualizado com Sucesso!! ");
 		menuPrincipal();
 	}
-	
+
 	public static void updateTodos(String nomeAntigo) throws SQLException {
-		
+
 		Produto produtoAtualizado = new Produto();
 		Scanner sc = new Scanner(System.in);
 		ProdutoModel pm = new ProdutoModel();
 
 		System.out.println(" Atualize o Nome do Produto: ");
 		produtoAtualizado.setNome(sc.next());
-	
+
 		System.out.println(" Atualize a Descrição do Produto: ");
 		produtoAtualizado.setDescricao(sc.next());
 
@@ -281,7 +311,7 @@ public class Main {
 		System.out.println(" ** Produto atualizado com Sucesso ** ");
 		menuPrincipal();
 	}
-	
+
 	public static void remove() throws SQLException {
 		consultarProdutos();
 		ProdutoModel pm = new ProdutoModel();
@@ -289,8 +319,9 @@ public class Main {
 		System.out.println(" Digite o Id do produto que deseja Remover: ");
 		Integer idProduto = sc.nextInt();
 		Produto retorno = pm.getProdutoById(idProduto);
-		System.out.println(" Tem certeza que deseja Remover esse Produto? " + retorno.getNome() + "\n 1 - Sim \n 2 - Não");
-		
+		System.out.println(
+				" Tem certeza que deseja Remover esse Produto? " + retorno.getNome() + "\n 1 - Sim \n 2 - Não");
+
 		Integer selecione = sc.nextInt();
 		switch (selecione) {
 		case 1:
@@ -300,12 +331,12 @@ public class Main {
 			break;
 
 		case 2:
-			
-			System.out.println( "Operação de Exclusão Cancelada");
+
+			System.out.println("Operação de Exclusão Cancelada");
 			menuPrincipal();
 			break;
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws SQLException {
